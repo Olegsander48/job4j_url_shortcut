@@ -17,4 +17,8 @@ public class Link {
     private String url;
     private String code;
     private int total;
+
+    @ManyToOne
+    @JoinColumn(name = "site_id")
+    private Site site;
 }

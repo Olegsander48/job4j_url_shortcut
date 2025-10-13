@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,8 +19,4 @@ public class Site {
     private String domainName;
     private String login;
     private String password;
-
-    @OneToMany
-    @JoinColumn(name = "site_id")
-    List<Link> links;
 }
