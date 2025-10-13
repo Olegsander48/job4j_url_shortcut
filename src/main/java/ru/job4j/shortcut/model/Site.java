@@ -1,5 +1,6 @@
 package ru.job4j.shortcut.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class Site {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonProperty("site")
     @Column(name = "domain_name")
     private String domainName;
     private String login;

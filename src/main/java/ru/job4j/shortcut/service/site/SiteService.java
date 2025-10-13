@@ -12,5 +12,7 @@ public interface SiteService {
 
     List<Site> findAll();
 
+    Optional<Site> findByDomainName(String domainName);
+
     void deleteById(int id);
 }

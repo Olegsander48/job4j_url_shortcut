@@ -10,6 +10,8 @@ public interface LinkService {
 
     Optional<Link> findById(int id);
 
+    Optional<Link> findByCode(String code);
+
     List<Link> findAll();
 
     void deleteById(int id);

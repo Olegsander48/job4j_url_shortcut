@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.shortcut.model.Site;
 import ru.job4j.shortcut.repository.SiteRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SimpleSiteService implements SiteService {
@@ -18,6 +16,8 @@ public class SimpleSiteService implements SiteService {
 
     @Override
     public Site save(Site site) {
+        site.setLogin(UUID.randomUUID().toString().substring(24));
+        site.setPassword(UUID.randomUUID().toString().substring(24));
         return siteRepository.save(site);
     }
 
@@ -31,6 +31,11 @@ public class SimpleSiteService implements SiteService {
         List<Site> sites = new ArrayList<>();
         siteRepository.findAll().forEach(sites::add);
         return sites;
+    }
+
+    @Override
+    public Optional<Site> findByDomainName(String domainName) {
+        return siteRepository.findByDomainName(domainName);
     }
 
     @Override
