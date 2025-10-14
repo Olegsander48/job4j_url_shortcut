@@ -1,6 +1,7 @@
 package ru.job4j.shortcut.service.site;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.shortcut.model.Site;
 import ru.job4j.shortcut.repository.SiteRepository;
 
@@ -15,6 +16,7 @@ public class SimpleSiteService implements SiteService {
     }
 
     @Override
+    @Transactional
     public Site save(Site site) {
         site.setLogin(UUID.randomUUID().toString().substring(24));
         site.setPassword(UUID.randomUUID().toString().substring(24));
@@ -22,11 +24,13 @@ public class SimpleSiteService implements SiteService {
     }
 
     @Override
+    @Transactional
     public Optional<Site> findById(int id) {
         return siteRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public List<Site> findAll() {
         List<Site> sites = new ArrayList<>();
         siteRepository.findAll().forEach(sites::add);
@@ -34,11 +38,13 @@ public class SimpleSiteService implements SiteService {
     }
 
     @Override
+    @Transactional
     public Optional<Site> findByDomainName(String domainName) {
         return siteRepository.findByDomainName(domainName);
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         siteRepository.deleteById(id);
     }

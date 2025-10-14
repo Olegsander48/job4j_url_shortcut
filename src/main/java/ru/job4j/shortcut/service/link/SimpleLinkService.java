@@ -1,6 +1,8 @@
 package ru.job4j.shortcut.service.link;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.shortcut.model.Link;
 import ru.job4j.shortcut.model.Site;
 import ru.job4j.shortcut.repository.LinkRepository;
@@ -21,11 +23,16 @@ public class SimpleLinkService implements LinkService {
     }
 
     @Override
+    @Transactional
     public Link save(Link link) {
         String domain = extractDomainName(link.getUrl());
         Optional<Site> siteOptional = siteRepository.findByDomainName(domain);
         if (siteOptional.isEmpty()) {
             throw new NoSuchElementException("Site with domain name " + domain + " not registered");
+        }
+        Optional<Link> linkOptional = linkRepository.findByUrl(link.getUrl());
+        if (linkOptional.isPresent()) {
+            throw new ConstraintViolationException("Link with url " + link.getUrl() + " already exists", null);
         }
         link.setSite(siteOptional.get());
         link.setCode(UUID.randomUUID().toString().substring(24));
@@ -33,16 +40,19 @@ public class SimpleLinkService implements LinkService {
     }
 
     @Override
+    @Transactional
     public Optional<Link> findById(int id) {
         return linkRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public Optional<Link> findByCode(String code) {
         return linkRepository.findByCode(code);
     }
 
     @Override
+    @Transactional
     public List<Link> findAll() {
         List<Link> links = new ArrayList<>();
         linkRepository.findAll().forEach(links::add);
@@ -50,6 +60,7 @@ public class SimpleLinkService implements LinkService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         linkRepository.deleteById(id);
     }
