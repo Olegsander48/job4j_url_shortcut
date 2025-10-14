@@ -48,6 +48,7 @@ public class SimpleLinkService implements LinkService {
     @Override
     @Transactional
     public Optional<Link> findByCode(String code) {
+        linkRepository.incrementTotalByCode(code);
         return linkRepository.findByCode(code);
     }
 
